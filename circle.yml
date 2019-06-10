@@ -37,4 +37,4 @@ workflows:
       - build:
           filters:
             branches:
-              only: feat/circle-ci-integration
+              only: master
