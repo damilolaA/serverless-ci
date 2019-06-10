@@ -1,0 +1,40 @@
+version: 2
+jobs:
+  build:
+    # working_directory: ~/nodejs/v2/functions
+    docker:
+      - image: circleci/node:8.15.0
+
+    steps:
+      - checkout
+      # Install all needed dependencies from package.json
+      - restore_cache:
+          name: Restore node_modules cache
+          keys:
+            - v1-dependencies-{{ checksum "./functions/package-lock.json" }}
+            - v1-dependencies-
+
+      - run: 
+          name: Install dependencies
+          command: cd ./functions && npm install
+
+       # Save the cache including node_modules folder
+      - save_cache:
+          name: Save modules to cache
+          key: v1-dependencies-{{ checksum "./functions/package-lock.json" }}
+          paths:
+            - ./functions/node_modules
+
+      - run:
+          # working_directory: ~/nodejs/v2/functions
+          name: Deploy Staging to Firebase
+          command: ./functions/node_modules/.bin/firebase deploy --only functions --token=$FIREBASE_TOKEN
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: feat/circle-ci-integration
