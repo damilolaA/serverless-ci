@@ -26,8 +26,8 @@ jobs:
             - ./functions/node_modules
 
       - run: 
-        name: Define project
-        command: ./functions/node_modules/.bin/firebase use cloud-function-51a5d
+          name: Define project
+          command: ./functions/node_modules/.bin/firebase use cloud-function-51a5d
 
       - run:
           # working_directory: ~/nodejs/v2/functions
