@@ -27,7 +27,7 @@ jobs:
 
       - run:
           # working_directory: ~/nodejs/v2/functions
-          name: Deploy Staging to Firebase
+          name: Deploy Firebase
           command: ./functions/node_modules/.bin/firebase deploy --only functions --token=$FIREBASE_TOKEN
 
 workflows:
